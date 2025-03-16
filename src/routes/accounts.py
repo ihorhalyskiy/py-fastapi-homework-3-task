@@ -1,5 +1,11 @@
 from datetime import datetime
 
+from fastapi import APIRouter, Depends, status, HTTPException
+from sqlalchemy import select
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import joinedload
+
 from config import get_jwt_auth_manager
 from database import (
     get_db,
@@ -11,7 +17,6 @@ from database import (
     RefreshTokenModel
 )
 from exceptions import TokenExpiredError
-from fastapi import APIRouter, Depends, status, HTTPException
 from schemas.accounts import (
     UserRegistrationRequestSchema,
     UserRegistrationResponseSchema,
@@ -23,10 +28,6 @@ from schemas.accounts import (
     TokenRefreshResponseSchema,
 )
 from security.interfaces import JWTAuthManagerInterface
-from sqlalchemy import select
-from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import joinedload
 
 router = APIRouter()
 
